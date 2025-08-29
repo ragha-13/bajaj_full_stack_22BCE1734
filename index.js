@@ -3,68 +3,49 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// ✅ GET route for testing in browser
+// GET route
 app.get("/", (req, res) => {
   res.send("API is running 🚀. Use POST /bfhl with JSON body to test.");
 });
 
-// ✅ POST route for assignment
+// POST route
 app.post("/bfhl", (req, res) => {
   try {
     const { data } = req.body;
-
-    // Input validation
     if (!Array.isArray(data)) {
       return res.status(400).json({ is_success: false, message: "Invalid input" });
     }
 
-    let even_numbers = [];
-    let odd_numbers = [];
-    let alphabets = [];
-    let special_characters = [];
-    let sum = 0;
-    let concat_string = "";
+    let even_numbers = [], odd_numbers = [], alphabets = [], special_characters = [];
+    let sum = 0, concat_string = "";
 
-    // Process input data
     data.forEach((item) => {
       if (!isNaN(item)) {
-        // If it's a number
         let num = parseInt(item);
-        if (num % 2 === 0) {
-          even_numbers.push(item.toString());
-        } else {
-          odd_numbers.push(item.toString());
-        }
+        num % 2 === 0 ? even_numbers.push(item.toString()) : odd_numbers.push(item.toString());
         sum += num;
       } else if (/^[a-zA-Z]+$/.test(item)) {
-        // If it's an alphabet
         alphabets.push(item.toUpperCase());
         concat_string += item;
       } else {
-        // Otherwise, treat as special character
         special_characters.push(item);
       }
     });
 
-    // Reverse + alternating caps for concat_string
     concat_string = concat_string
       .split("")
       .reverse()
       .map((ch, idx) => (idx % 2 === 0 ? ch.toUpperCase() : ch.toLowerCase()))
       .join("");
 
-    // Response object
     res.json({
       is_success: true,
-      user_id: "your_fullname_ddmmyyyy", // 🔹 Replace with your name + dob
-      email: "your_email@xyz.com",       // 🔹 Replace with your email
-      roll_number: "YOUR_ROLL_NUMBER",   // 🔹 Replace with your roll number
+      user_id: "ragha_ddmmyyyy",   // put your details
+      email: "ragha@vitstudent.ac.in",
+      roll_number: "YOUR_ROLL_NO",
       odd_numbers,
       even_numbers,
       alphabets,
@@ -77,7 +58,5 @@ app.post("/bfhl", (req, res) => {
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-});
+// 👉 Instead of app.listen, export the app for Vercel
+module.exports = app;

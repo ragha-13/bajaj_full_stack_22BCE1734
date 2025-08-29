@@ -43,9 +43,9 @@ app.post("/bfhl", (req, res) => {
 
     res.json({
       is_success: true,
-      user_id: "ragha_ddmmyyyy",   // put your details
-      email: "ragha@vitstudent.ac.in",
-      roll_number: "YOUR_ROLL_NO",
+      user_id: "Ragha_Karthikeyan_14012004",   
+      email: "ragha.karthikeyan2022@vitstudent.ac.in",
+      roll_number: "22BCE1734",
       odd_numbers,
       even_numbers,
       alphabets,
